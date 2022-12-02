@@ -97,8 +97,11 @@ def _do_stutter(entry: str, stutter_every_nth_word: int = 4) -> str:
     listofstr = entry.split(" ")
     result = []
     for index, word in enumerate(listofstr):
-        if index % stutter_every_nth_word == 0:
-            result.append("{}-{}{}".format(word[0], word[0], word[1:]))
+        # Only stutter if the word is actually a word
+        if index % stutter_every_nth_word == 0 and word[0].isalpha():
+                # Turns hi into h-hi
+                result.append(str(word[0] + "-" + word[1:]))
+                # old: result.append("{}-{}{}".format(word[0], word[0], word[1:]))
         else:
             result.append(word)
     return " ".join(result)
@@ -118,6 +121,5 @@ def uwu(entry: Union[list, str], *, flags: UwuifyFlag = 0) -> str:
 
     if flags & UwuifyFlag.SMILEY:
         entry = _do_smiley(entry)
-
 
     return entry
